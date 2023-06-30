@@ -6,7 +6,6 @@ import cors from 'cors';
 export const app = express();
 app.use(express.json());
 app.use(cors({
-    origin: process.env.CORS_ORIGIN_URL,
-    optionsSuccessStatus: 200
+    origin: process.env.CORS_ORIGIN_URL
 }));
 app.use(routes)
