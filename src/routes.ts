@@ -1,9 +1,9 @@
 import Router, { Request, Response } from 'express';
-import AccountController from './controllers/AccountController';
+import MessageController from './controllers/MessageController';
 
 export const routes = Router();
 
 routes.get('/', (req: Request, res: Response) => res.send("App is alive"))
-routes.post('/login', new AccountController().login);
+routes.post('/send-message', new MessageController().send);
 
 export default routes
