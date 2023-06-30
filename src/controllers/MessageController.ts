@@ -1,20 +1,21 @@
 import { Request, Response } from "express";
 import transporter from "../services/smtp.config";
 import { HTMLCompiler } from "../utils/HtmlCompiler";
+import bcrypt from 'bcrypt';
 
 export default class MessageController {
     async send(req: Request, res: Response) {
-        const { name, email, message } = req.body;
+        const { name, email, subject, message } = req.body;
 
-        if (!name || !email || !message) return res.status(400).json({ message: "Invalid data" })
+        if (!name || !email || !subject || !message) return res.status(400).json({ message: "Invalid data" })
 
         try {
             const html = await HTMLCompiler.compiler('./src/templates/greetings.html',
                 { name, email, message, date: new Date() });
             await transporter.sendMail({
-                from: `${name} <${process.env.EMAIL_FROM}>`,
-                to: `${process.env.EMAIL_NAME} <${process.env.EMAIL_FROM}>`,
-                subject: `Mensagem enviada do portfólio por ${name}`,
+                from: `Do portfólio - ${name} <${process.env.EMAIL_FROM}>`,
+                to: `Portfólio <${process.env.EMAIL_TO}>`,
+                subject,
                 html
             })
 
